@@ -1,0 +1,557 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
+  "version": "5",
+  "dialect": "mysql",
+  "tables": {
+    "channel": {
+      "name": "channel",
+      "columns": {
+        "id": {
+          "autoincrement": false,
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "autoincrement": false,
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "defaultThumbnailLink": {
+          "autoincrement": false,
+          "name": "defaultThumbnailLink",
+          "type": "varchar(1023)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mediumThumbnailLink": {
+          "autoincrement": false,
+          "name": "mediumThumbnailLink",
+          "type": "varchar(1023)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "highThumbnailLink": {
+          "autoincrement": false,
+          "name": "highThumbnailLink",
+          "type": "varchar(1023)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "uploadPlaylistId": {
+          "autoincrement": false,
+          "name": "uploadPlaylistId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "videoCount": {
+          "autoincrement": false,
+          "name": "videoCount",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "viewCount": {
+          "autoincrement": false,
+          "name": "viewCount",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "subscriberCount": {
+          "autoincrement": false,
+          "name": "subscriberCount",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "publishedAt": {
+          "autoincrement": false,
+          "name": "publishedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lastSync": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "lastSync",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "last_video_sync": {
+          "autoincrement": false,
+          "name": "last_video_sync",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "channel_id": {
+          "name": "channel_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "google_user": {
+      "name": "google_user",
+      "columns": {
+        "id": {
+          "autoincrement": false,
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "autoincrement": false,
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "profile_picture_link": {
+          "autoincrement": false,
+          "name": "profile_picture_link",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "access_token": {
+          "autoincrement": false,
+          "name": "access_token",
+          "type": "varchar(2048)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "access_token_expires_at": {
+          "autoincrement": false,
+          "name": "access_token_expires_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "refresh_token": {
+          "autoincrement": false,
+          "name": "refresh_token",
+          "type": "varchar(512)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "authorized_scopes": {
+          "autoincrement": false,
+          "name": "authorized_scopes",
+          "type": "varchar(4095)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "must_watch_playlist_id": {
+          "autoincrement": false,
+          "name": "must_watch_playlist_id",
+          "type": "varchar(1023)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "may_watch_playlist_id": {
+          "autoincrement": false,
+          "name": "may_watch_playlist_id",
+          "type": "varchar(1023)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "google_user_id": {
+          "name": "google_user_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "uniqueConstraints": {
+        "email": {
+          "name": "email",
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "google_user_subscription": {
+      "name": "google_user_subscription",
+      "columns": {
+        "id": {
+          "autoincrement": false,
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "google_user_id": {
+          "autoincrement": false,
+          "name": "google_user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "channel_id": {
+          "autoincrement": false,
+          "name": "channel_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_ignore": {
+          "default": 0,
+          "autoincrement": false,
+          "name": "is_ignore",
+          "type": "tinyint(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_sync": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "last_sync",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "google_user_subscription_id": {
+          "name": "google_user_subscription_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "c_fk": {
+          "name": "c_fk",
+          "tableFrom": "google_user_subscription",
+          "tableTo": "channel",
+          "columnsFrom": [
+            "channel_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "gu_fk": {
+          "name": "gu_fk",
+          "tableFrom": "google_user_subscription",
+          "tableTo": "google_user",
+          "columnsFrom": [
+            "google_user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "google_user_swipe": {
+      "name": "google_user_swipe",
+      "columns": {
+        "id": {
+          "autoincrement": false,
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "google_user_id": {
+          "autoincrement": false,
+          "name": "google_user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "video_id": {
+          "autoincrement": false,
+          "name": "video_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reaction": {
+          "default": "'no'",
+          "autoincrement": false,
+          "name": "reaction",
+          "type": "enum('must','may','no')",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "created_at",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "compositePrimaryKeys": {
+        "google_user_swipe_id": {
+          "name": "google_user_swipe_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "gu_swipe_fk": {
+          "name": "gu_swipe_fk",
+          "tableFrom": "google_user_swipe",
+          "tableTo": "google_user",
+          "columnsFrom": [
+            "google_user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "v_fk": {
+          "name": "v_fk",
+          "tableFrom": "google_user_swipe",
+          "tableTo": "video",
+          "columnsFrom": [
+            "video_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "video": {
+      "name": "video",
+      "columns": {
+        "id": {
+          "autoincrement": false,
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "channelId": {
+          "autoincrement": false,
+          "name": "channelId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "autoincrement": false,
+          "name": "title",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "autoincrement": false,
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "duration": {
+          "autoincrement": false,
+          "name": "duration",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "publishedAt": {
+          "autoincrement": false,
+          "name": "publishedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "viewCount": {
+          "autoincrement": false,
+          "name": "viewCount",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "likeCount": {
+          "autoincrement": false,
+          "name": "likeCount",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hasCaption": {
+          "autoincrement": false,
+          "name": "hasCaption",
+          "type": "tinyint(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "defaultThumbnailLink": {
+          "autoincrement": false,
+          "name": "defaultThumbnailLink",
+          "type": "varchar(1023)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mediumThumbnailLink": {
+          "autoincrement": false,
+          "name": "mediumThumbnailLink",
+          "type": "varchar(1023)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "highThumbnailLink": {
+          "autoincrement": false,
+          "name": "highThumbnailLink",
+          "type": "varchar(1023)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "standardThumbnailLink": {
+          "autoincrement": false,
+          "name": "standardThumbnailLink",
+          "type": "varchar(1023)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "iFrameLink": {
+          "autoincrement": false,
+          "name": "iFrameLink",
+          "type": "varchar(1023)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lastSync": {
+          "default": "(CURRENT_TIMESTAMP)",
+          "autoincrement": false,
+          "name": "lastSync",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "compositePrimaryKeys": {
+        "video_id": {
+          "name": "video_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "indexes": {
+        "index_name": {
+          "name": "index_name",
+          "columns": [
+            "publishedAt"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "channelForeignKey": {
+          "name": "channelForeignKey",
+          "tableFrom": "video",
+          "tableTo": "channel",
+          "columnsFrom": [
+            "channelId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    }
+  },
+  "views": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "tables": {
+      "channel": {
+        "columns": {
+          "lastSync": {
+            "isDefaultAnExpression": true
+          }
+        }
+      },
+      "google_user_subscription": {
+        "columns": {
+          "last_sync": {
+            "isDefaultAnExpression": true
+          }
+        }
+      },
+      "google_user_swipe": {
+        "columns": {
+          "created_at": {
+            "isDefaultAnExpression": true
+          }
+        }
+      },
+      "video": {
+        "columns": {
+          "lastSync": {
+            "isDefaultAnExpression": true
+          }
+        }
+      }
+    },
+    "indexes": {}
+  }
+}
