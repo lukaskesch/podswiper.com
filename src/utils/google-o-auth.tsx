@@ -1,4 +1,5 @@
-import { addSecondsToDate } from "@/utils/date-time-converter";
+import { googleUser } from "@/db/schema";
+import { addSecondsToDate, convertDateToMySqlDate } from "@/utils/date-time-converter";
 import { getEnv } from "@/utils/get-env";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
@@ -62,19 +63,24 @@ export async function fetchAccessToken(body: string): Promise<TokenResponse> {
 }
 
 export function buildGoogleUserFromTokenResponse(
-  response: TokenResponse,
-) {
+  response: TokenResponse
+): typeof googleUser.$inferInsert {
   const decoded = jwt.decode(response.id_token) as JwtPayload;
+  if (!decoded.sub) {
+    throw new Error("Invalid ID token");
+  }
   return {
     id: decoded.sub,
     email: decoded.email,
     name: decoded.name,
-    profile_picture_link: decoded.picture,
-    access_token: response.access_token,
-    access_token_expires_at: addSecondsToDate(new Date(), response.expires_in),
-    refresh_token: response.refresh_token,
-    authorized_scopes: response.scope,
-    may_watch_playlist_id: null,
-    must_watch_playlist_id: null,
+    profilePictureLink: decoded.picture,
+    accessToken: response.access_token,
+    accessTokenExpiresAt: convertDateToMySqlDate(
+      addSecondsToDate(new Date(), response.expires_in)
+    ),
+    refreshToken: response.refresh_token,
+    authorizedScopes: response.scope,
+    mayWatchPlaylistId: null,
+    mustWatchPlaylistId: null,
   };
 }
