@@ -37,6 +37,14 @@ export async function GET(request: Request) {
 
     if (!userFromDb) {
       await db.insert(googleUser).values(user);
+      return Response.redirect(
+        new URL(
+          `/auth/youtube/onboarding?access_token=${encodeURIComponent(
+            user.accessToken
+          )}`,
+          request.url
+        )
+      );
     }
 
     return new Response(JSON.stringify(userFromDb), { status: 200 });
