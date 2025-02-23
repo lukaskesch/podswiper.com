@@ -6,6 +6,7 @@ import {
 import { googleUser } from "@/db/schema";
 import db from "@/db";
 import { eq } from "drizzle-orm";
+
 export async function GET(request: Request) {
   // Get the code for the query string
   const url = new URL(request.url);
