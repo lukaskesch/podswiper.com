@@ -1,5 +1,6 @@
 import {
   buildGoogleUserFromTokenResponse,
+  checkForRequiredScopes,
   getAccessTokenFromCode,
 } from "@/utils/google-o-auth";
 import { googleUser } from "@/db/schema";
@@ -14,6 +15,15 @@ export async function GET(request: Request) {
   try {
     const response = await getAccessTokenFromCode(code);
     const user = await buildGoogleUserFromTokenResponse(response);
+
+    const hasRequiredScopes = checkForRequiredScopes(
+      user.authorizedScopes?.split(" ") ?? []
+    );
+    if (!hasRequiredScopes) {
+      return Response.redirect(
+        new URL("/auth/youtube/scope-error", request.url)
+      );
+    }
 
     // Check if the user exists in the database
     if (!db) {

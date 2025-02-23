@@ -1,5 +1,9 @@
+import { requiredScopes } from "@/constants/required-scopes";
 import { googleUser } from "@/db/schema";
-import { addSecondsToDate, convertDateToMySqlDate } from "@/utils/date-time-converter";
+import {
+  addSecondsToDate,
+  convertDateToMySqlDate,
+} from "@/utils/date-time-converter";
 import { getEnv } from "@/utils/get-env";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
@@ -16,31 +20,29 @@ const token_uri = "https://oauth2.googleapis.com/token";
 
 export function getGoogleOAuthURL() {
   const queryOptions = {
-    redirect_uri: getEnv("GOOGLE_OAUTH_REDIRECT_URI"),
-    client_id: getEnv("GOOGLE_OAUTH_CLIENT_ID"),
+    redirect_uri: getEnv("AUTH_GOOGLE_REDIRECT_URI"),
+    client_id: getEnv("AUTH_GOOGLE_ID"),
     access_type: "offline",
     response_type: "code",
     prompt: "consent",
-    scope: [
-      "https://www.googleapis.com/auth/userinfo.email",
-      "https://www.googleapis.com/auth/userinfo.profile",
-      "https://www.googleapis.com/auth/youtube.readonly",
-      "https://www.googleapis.com/auth/youtube",
-      "https://www.googleapis.com/auth/youtube.force-ssl",
-    ].join(" "),
+    scope: requiredScopes.join(" "),
   };
   const auth_uri = "https://accounts.google.com/o/oauth2/v2/auth";
   const queryString = new URLSearchParams(queryOptions).toString();
   return `${auth_uri}?${queryString}`;
 }
 
+export function checkForRequiredScopes(scopes: string[]) {
+  return requiredScopes.every((scope) => scopes.includes(scope));
+}
+
 export async function getAccessTokenFromCode(code: string) {
   const body = new URLSearchParams({
-    client_id: getEnv("GOOGLE_OAUTH_CLIENT_ID"),
-    client_secret: getEnv("GOOGLE_OAUTH_CLIENT_SECRET"),
+    client_id: getEnv("AUTH_GOOGLE_ID"),
+    client_secret: getEnv("AUTH_GOOGLE_SECRET"),
     grant_type: "authorization_code",
     code: code,
-    redirect_uri: getEnv("GOOGLE_OAUTH_REDIRECT_URI"),
+    redirect_uri: getEnv("AUTH_GOOGLE_REDIRECT_URI"),
   }).toString();
   return await fetchAccessToken(body);
 }
